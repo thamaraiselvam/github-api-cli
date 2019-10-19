@@ -1,5 +1,6 @@
-# GIT API CLI
-CLI tool that fetch github public apis
+# Git Api Cli
+
+Git Api Cli fetches data from github public apis
 
 ## Usage
 
