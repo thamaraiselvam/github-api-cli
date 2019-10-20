@@ -31,4 +31,20 @@ func TestHttpConfig_GetUser(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, expectedUserInfo, actualUserInfo)
 	})
+
+	t.Run("should return not found on invalid username", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/users/username").
+			Reply(404).
+			BodyString(`{}`)
+
+		client := cli.HTTPConfig{
+			URL: githubHost + "/users/username",
+		}
+
+		_, err := client.GetUser()
+
+		assert.Error(t, err)
+		assert.Equal(t, "user not found", err.Error())
+	})
 }
