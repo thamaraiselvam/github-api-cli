@@ -1,4 +1,4 @@
-# Git Api Cli
+# git-api-cli
 
 gac is cli tool which fetches publicly available data from github.com
 
