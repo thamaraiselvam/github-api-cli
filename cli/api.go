@@ -7,11 +7,13 @@ import (
 	"net/http"
 )
 
-type HttpConfig struct {
+//HTTPConfig holds structure for making http request
+type HTTPConfig struct {
 	URL string
 }
 
-func (config HttpConfig) GetUser() (UserInfo, error) {
+//GetUser get user information from github.com
+func (config HTTPConfig) GetUser() (UserInfo, error) {
 	resp, err := makeRequest(http.MethodGet, config.URL, nil)
 	if err != nil {
 		return UserInfo{}, err

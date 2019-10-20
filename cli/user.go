@@ -12,15 +12,15 @@ func init() {
 
 //UserInfo contains all user related information
 type UserInfo struct {
-	Name string `json:"name"`
-	Location string `json:"location"`
-	PublicRepos int `json:"public_repos"`
+	Name        string `json:"name"`
+	Location    string `json:"location"`
+	PublicRepos int    `json:"public_repos"`
 }
 
 var versionCmd = &cobra.Command{
 	Use:   "user",
 	Short: "Retrieve user profile information",
-	Long: "Retrieve user profile information such as name, city, public repos, followers, following",
+	Long:  "Retrieve user profile information such as name, city, public repos, followers, following",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) == 0 {
 			return fmt.Errorf("enter your name")
@@ -32,11 +32,11 @@ var versionCmd = &cobra.Command{
 	},
 }
 
-func getRepoList(name string){
+func getRepoList(name string) {
 
-	client := HttpConfig{URL:  fmt.Sprintf("https://api.github.com/users/%s", name)}
+	client := HTTPConfig{URL: fmt.Sprintf("https://api.github.com/users/%s", name)}
 	userInfo, err := client.GetUser()
-	if err != nil{
+	if err != nil {
 		_ = fmt.Errorf("%v", err)
 		os.Exit(1)
 	}
@@ -45,4 +45,3 @@ func getRepoList(name string){
 	fmt.Println(userInfo.Location)
 	fmt.Println(userInfo.PublicRepos)
 }
-

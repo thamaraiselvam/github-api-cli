@@ -22,7 +22,7 @@ func TestHttpConfig_GetUser(t *testing.T) {
 			PublicRepos: 90,
 		}
 
-		client := cli.HttpConfig{
+		client := cli.HTTPConfig{
 			URL: githubHost + "/users/thamaraiselvam",
 		}
 
