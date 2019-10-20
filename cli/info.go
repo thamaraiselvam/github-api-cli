@@ -6,10 +6,6 @@ import (
 	"os"
 )
 
-func init() {
-	rootCmd.AddCommand(versionCmd)
-}
-
 //UserInfo contains all user related information
 type UserInfo struct {
 	Name        string `json:"name"`
@@ -17,19 +13,21 @@ type UserInfo struct {
 	PublicRepos int    `json:"public_repos"`
 }
 
-var versionCmd = &cobra.Command{
-	Use:   "info",
-	Short: "Retrieve user profile information",
-	Long:  "Retrieve user profile information such as name, city, public repos, followers, following",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) == 0 {
-			return fmt.Errorf("enter your name")
-		}
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		getRepoList(args[0])
-	},
+func infoCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "info",
+		Short: "Retrieve user profile information",
+		Long:  "Retrieve user profile information such as name, location, public repos, followers, following",
+		Args: func(cmd *cobra.Command, args []string) error {
+			if len(args) == 0 {
+				return fmt.Errorf("enter your name")
+			}
+			return nil
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			getRepoList(args[0])
+		},
+	}
 }
 
 func getRepoList(name string) {
