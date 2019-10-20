@@ -1,6 +1,8 @@
-# git-api-cli
+# github-api-cli
 
-gac is cli tool which fetches publicly available data from github.com
+github-api-cli provides an executable called gac, that can be used to access all of GitHub’s public API functionality from your command-line
+
+github-api-cli is written in [cobra](https://github.com/spf13/cobra)
 
 ## Usage
 
@@ -28,6 +30,6 @@ Run
 $ git clone https://github.com/thamaraiselvam/git-api-cli.git
 $ cd git-api-cli
 $ go install
-$ make compile # only build
-$ make build # lint, test, compile
+$ make setup
+$ make build
 ```
