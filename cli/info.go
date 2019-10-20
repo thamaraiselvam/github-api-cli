@@ -25,15 +25,15 @@ func infoCmd() *cobra.Command {
 			return nil
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			getRepoList(args[0])
+			config := createConfig()
+			getRepoList(config, args[0])
 		},
 	}
 }
 
-func getRepoList(name string) {
-
-	client := HTTPConfig{URL: fmt.Sprintf("https://api.github.com/users/%s", name)}
-	userInfo, err := client.GetUser()
+func getRepoList(httpConfig HTTPConfig, name string) {
+	httpConfig.URL = httpConfig.BaseURL + fmt.Sprintf("/users/%s", name)
+	userInfo, err := httpConfig.GetUser()
 	if err != nil {
 		_ = fmt.Errorf("%v", err)
 		os.Exit(1)

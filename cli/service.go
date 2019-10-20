@@ -9,7 +9,8 @@ import (
 
 //HTTPConfig holds structure for making http request
 type HTTPConfig struct {
-	URL string
+	BaseURL string
+	URL     string
 }
 
 //GetUser get user information from github.com

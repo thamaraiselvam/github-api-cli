@@ -8,7 +8,7 @@ import (
 
 var rootCmd = &cobra.Command{}
 
-//Execute on root cmd
+//Execute on rootCmd
 func Execute() {
 	commands := []func() *cobra.Command{infoCmd}
 
@@ -21,4 +21,8 @@ func Execute() {
 		_ = fmt.Errorf(fmt.Sprintf("%v", err))
 		os.Exit(1)
 	}
+}
+
+func createConfig() HTTPConfig {
+	return HTTPConfig{BaseURL: fmt.Sprintf("https://api.github.com")}
 }
