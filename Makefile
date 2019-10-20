@@ -6,7 +6,7 @@ BUILD?=$(shell git describe --tags --always)
 GOLINT:=$(shell command -v golint 2> /dev/null)
 GOPATH?=$(shell go env GOPATH)
 
-APP_EXECUTABLE="./out/"
+APP_EXECUTABLE="./out/gac"
 
 RICHGO=$(shell command -v richgo 2> /dev/null)
 GO111MODULE=on
