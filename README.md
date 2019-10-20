@@ -1,6 +1,6 @@
 # github-api-cli
 
-<img alt="travis build status" src="https://img.shields.io/travis/thamaraiselvam/git-api-cli?style=for-the-badge"> <img alt="Codecov code coverage" src="https://img.shields.io/codecov/c/github/thamaraiselvam/github-api-cli?style=for-the-badge">
+<img alt="travis build status" src="https://img.shields.io/travis/thamaraiselvam/github-api-cli?style=for-the-badge"> <img alt="Codecov code coverage" src="https://img.shields.io/codecov/c/github/thamaraiselvam/github-api-cli?style=for-the-badge">
 
 github-api-cli provides an executable called gac, that can be used to access all of GitHub’s public API functionality from your command-line
 
