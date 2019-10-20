@@ -18,7 +18,7 @@ type UserInfo struct {
 }
 
 var versionCmd = &cobra.Command{
-	Use:   "user",
+	Use:   "info",
 	Short: "Retrieve user profile information",
 	Long:  "Retrieve user profile information such as name, city, public repos, followers, following",
 	Args: func(cmd *cobra.Command, args []string) error {
