@@ -14,16 +14,6 @@ github-api-cli is written in [cobra](https://github.com/spf13/cobra)
 gac info <username>
 ```
 
-### Todo Commands:
-
-```
-- gac list pr <username>
-- gac list followers <username>
-- gac list following <username>
-- gac list gist <username>
-- gac list repo <username>
-```
-
 ### Development
 
 Run
