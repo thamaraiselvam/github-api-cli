@@ -61,6 +61,20 @@ func (config config) GetUser() (types.UserInfo, error) {
 	return userInfo, nil
 }
 
+//GetFollowing get following user information from github.com
+func (config HTTPConfig) GetFollowing() (FollowingUserList, error) {
+	resp, err := makeRequest(http.MethodGet, config.URL, nil)
+	if err != nil {
+		return FollowingUserList{}, err
+	}
+	userInfoList := make(FollowingUserList, 0)
+	if err := json.NewDecoder(resp.Body).Decode(&userInfoList); err != nil {
+		return FollowingUserList{}, fmt.Errorf("error decoding response %v", err)
+	}
+
+	return userInfoList, nil
+}
+
 func makeRequest(method string, URL string, body io.Reader) (*http.Response, error) {
 	request, err := http.NewRequest(method, URL, body)
 
