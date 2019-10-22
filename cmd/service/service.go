@@ -3,7 +3,7 @@ package service
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/thamaraiselvam/git-api-cli/cli/types"
+	"github.com/thamaraiselvam/git-api-cli/cmd/types"
 	"io"
 	"net/http"
 )

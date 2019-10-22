@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/thamaraiselvam/git-api-cli/cli/types"
+	"github.com/thamaraiselvam/git-api-cli/cmd/types"
 	"gopkg.in/h2non/gock.v1"
 	"testing"
 )

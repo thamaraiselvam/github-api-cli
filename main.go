@@ -1,7 +1,7 @@
 package main
 
-import "github.com/thamaraiselvam/git-api-cli/cli"
+import "github.com/thamaraiselvam/git-api-cli/cmd"
 
 func main() {
-	cli.Execute()
+	cmd.Execute()
 }
