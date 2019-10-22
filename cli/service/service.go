@@ -1,29 +1,43 @@
-package cli
+package service
 
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/thamaraiselvam/git-api-cli/cli/types"
 	"io"
 	"net/http"
 )
 
-//HTTPConfig holds structure for making http request
-type HTTPConfig struct {
+const githubURL = "https://api.github.com"
+
+//Client is interface of service
+type Client interface {
+	GetUser() (types.UserInfo, error)
+}
+
+type config struct {
 	BaseURL string
 	URL     string
 }
 
-//GetUser get user information from github.com
-func (config HTTPConfig) GetUser() (UserInfo, error) {
+//CreateClient for making request
+func CreateClient(path string) Client {
+	return config{
+		URL: githubURL + path,
+	}
+}
+
+//GetUser fetches user information from github.com
+func (config config) GetUser() (types.UserInfo, error) {
 	resp, err := makeRequest(http.MethodGet, config.URL, nil)
 	if err != nil {
-		return UserInfo{}, err
+		return types.UserInfo{}, err
 	}
 
-	var userInfo UserInfo
+	var userInfo types.UserInfo
 
 	if err := json.NewDecoder(resp.Body).Decode(&userInfo); err != nil {
-		return UserInfo{}, fmt.Errorf("error decoding response %v", err)
+		return types.UserInfo{}, fmt.Errorf("error decoding response %v", err)
 	}
 
 	return userInfo, nil

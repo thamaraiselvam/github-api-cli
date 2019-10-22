@@ -3,15 +3,9 @@ package cli
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/thamaraiselvam/git-api-cli/cli/service"
 	"os"
 )
-
-//UserInfo contains all user related information
-type UserInfo struct {
-	Name        string `json:"name"`
-	Location    string `json:"location"`
-	PublicRepos int    `json:"public_repos"`
-}
 
 func infoCmd() *cobra.Command {
 	return &cobra.Command{
@@ -25,15 +19,15 @@ func infoCmd() *cobra.Command {
 			return nil
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			config := createConfig()
-			getRepoList(config, args[0])
+
+			getRepoList(args[0])
 		},
 	}
 }
 
-func getRepoList(httpConfig HTTPConfig, name string) {
-	httpConfig.URL = httpConfig.BaseURL + fmt.Sprintf("/users/%s", name)
-	userInfo, err := httpConfig.GetUser()
+func getRepoList(name string) {
+	client := service.CreateClient(fmt.Sprintf("/users/%s", name))
+	userInfo, err := client.GetUser()
 	if err != nil {
 		_ = fmt.Errorf("%v", err)
 		os.Exit(1)

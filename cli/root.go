@@ -22,7 +22,3 @@ func Execute() {
 		os.Exit(1)
 	}
 }
-
-func createConfig() HTTPConfig {
-	return HTTPConfig{BaseURL: fmt.Sprintf("https://api.github.com")}
-}
