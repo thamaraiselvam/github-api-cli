@@ -22,5 +22,5 @@ type FollowingUser struct {
 	URL  string `json:"html_url"`
 }
 
-//FollowingUserList stores a list of FollowingUser
-type FollowingUserList = []FollowingUser
+//FollowingUsers stores a list of FollowingUser
+type FollowingUsers = []FollowingUser

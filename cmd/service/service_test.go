@@ -179,13 +179,13 @@ func Test_makeRequest(t *testing.T) {
 }
 
 func TestHTTPConfig_GetFollowing(t *testing.T) {
-	t.Run("should return FollowingUserList on valid request", func(t *testing.T) {
+	t.Run("should return FollowingUsers on valid request", func(t *testing.T) {
 		gock.New(githubHost).
 			Get("/users/username/following").
 			Reply(200).
 			BodyString(`[{"login": "following", "html_url": "https://github.com/following"}]`)
 
-		expectedUserInfo := types.FollowingUserList{{
+		expectedUserInfo := types.FollowingUsers{{
 			Name: "following",
 			URL:  "https://github.com/following",
 		}}
