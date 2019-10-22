@@ -10,7 +10,7 @@ import (
 const githubHost = "https://api.github.com"
 
 func TestHTTPConfig_GetUser(t *testing.T) {
-	t.Run("should return UserInfo on valid request", func(t *testing.T) {
+	t.Run("should return user information on valid request", func(t *testing.T) {
 		gock.New(githubHost).
 			Get("/users/username").
 			Reply(200).
@@ -40,7 +40,7 @@ func TestHTTPConfig_GetUser(t *testing.T) {
 		_, err := client.GetUser()
 
 		assert.Error(t, err)
-		assert.Equal(t, "user not found", err.Error())
+		assert.Equal(t, "404 Not Found", err.Error())
 	})
 
 	t.Run("should return error if response is not a valid json", func(t *testing.T) {
