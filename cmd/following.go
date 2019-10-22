@@ -1,9 +1,9 @@
-package cli
+package cmd
 
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/thamaraiselvam/git-api-cli/cli/service"
+	"github.com/thamaraiselvam/git-api-cli/cmd/service"
 	"os"
 	"text/tabwriter"
 )
