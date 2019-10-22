@@ -13,6 +13,7 @@ const githubURL = "https://api.github.com"
 //Client is interface of service
 type Client interface {
 	GetUser() (types.UserInfo, error)
+	GetFollowers() (types.Followers, error)
 }
 
 type config struct {
@@ -25,6 +26,23 @@ func CreateClient(path string) Client {
 	return config{
 		URL: githubURL + path,
 	}
+}
+
+//GetFollowers fetches followers list of user
+func (config config) GetFollowers() (types.Followers, error) {
+	resp, err := makeRequest(http.MethodGet, config.URL, nil)
+
+	if err != nil {
+		return types.Followers{}, err
+	}
+
+	var followers types.Followers
+
+	if err := json.NewDecoder(resp.Body).Decode(&followers); err != nil {
+		return types.Followers{}, err
+	}
+
+	return followers, nil
 }
 
 //GetUser fetches user information from github.com
@@ -54,10 +72,6 @@ func makeRequest(method string, URL string, body io.Reader) (*http.Response, err
 
 	if err != nil {
 		return nil, fmt.Errorf("error getting response from service %v", err)
-	}
-
-	if resp.StatusCode == 404 {
-		return nil, fmt.Errorf("user not found")
 	}
 
 	if resp.StatusCode != 200 {
