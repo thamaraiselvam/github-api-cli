@@ -21,7 +21,7 @@ func Command() *cobra.Command {
 			return nil
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			client := createClient(args[0])
+			client := service.CreateClient(fmt.Sprintf("/users/%s", args[0]))
 			userInfo, err := getUserInfo(client)
 
 			if err != nil {
@@ -34,10 +34,6 @@ func Command() *cobra.Command {
 	}
 }
 
-func createClient(name string) service.Client {
-	return service.CreateClient(fmt.Sprintf("/users/%s", name))
-}
-
 func getUserInfo(client service.Client) (types.UserInfo, error) {
 	userInfo, err := client.GetUser()
 
@@ -48,6 +44,8 @@ func getUserInfo(client service.Client) (types.UserInfo, error) {
 	return userInfo, err
 }
 
-func displayInfo(info types.UserInfo) {
-	fmt.Println(info)
+func displayInfo(user types.UserInfo) {
+	fmt.Println(user.Name)
+	fmt.Println(user.Location)
+	fmt.Println(user.PublicRepos)
 }

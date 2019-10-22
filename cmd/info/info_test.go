@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"github.com/thamaraiselvam/git-api-cli/cmd/service"
 	"github.com/thamaraiselvam/git-api-cli/cmd/types"
 	mockClient "github.com/thamaraiselvam/git-api-cli/internal/mock/service"
 	"testing"
@@ -42,13 +41,5 @@ func Test_getUserInfo(t *testing.T) {
 		assert.Error(t, err)
 		assert.Equal(t, "error", err.Error())
 
-	})
-}
-
-func Test_createClient(t *testing.T) {
-	t.Run("should return a valid client", func(t *testing.T) {
-		expectedClient := service.CreateClient("/users/username")
-		actualClient := createClient("username")
-		assert.Equal(t, expectedClient, actualClient)
 	})
 }
