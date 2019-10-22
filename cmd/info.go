@@ -25,17 +25,6 @@ func infoCmd() *cobra.Command {
 		},
 	}
 }
-func publicReposCmd() *cobra.Command {
-	return &cobra.Command{
-		Use:   "list gist",
-		Short: "Retrieve public gists",
-		Long:  "Retrieve public gists with owner github id, description, created date and url",
-		Args:  nil,
-		Run: func(cmd *cobra.Command, args []string) {
-			getPublicGistList()
-		},
-	}
-}
 
 func getRepoList(name string) {
 	client := service.CreateClient(fmt.Sprintf("/users/%s", name))
@@ -48,18 +37,4 @@ func getRepoList(name string) {
 	fmt.Println(userInfo.Name)
 	fmt.Println(userInfo.Location)
 	fmt.Println(userInfo.PublicRepos)
-}
-
-func getPublicGistList() {
-	client := service.CreateClient("/gists/public")
-	gists, err := client.GetPublicGists()
-	if err != nil {
-		_ = fmt.Errorf("%v", err)
-		os.Exit(1)
-	}
-	d := "Owner | Description | Created At | URL \n ---|----|-----\n"
-	for _, gist := range gists {
-		d += fmt.Sprintf("%s | %s | %s | %s", gist.Owner["login"].(string), gist.Description, gist.CreatedAt, gist.URL)
-	}
-	fmt.Println(d)
 }

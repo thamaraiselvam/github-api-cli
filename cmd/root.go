@@ -2,15 +2,16 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"os"
+
+	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{}
 
 //Execute on rootCmd
 func Execute() {
-	commands := []func() *cobra.Command{infoCmd}
+	commands := []func() *cobra.Command{infoCmd, publicGistsCmd}
 
 	for _, command := range commands {
 		rootCmd.AddCommand(command())
