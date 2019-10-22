@@ -56,4 +56,17 @@ func TestHTTPConfig_GetUser(t *testing.T) {
 		assert.Equal(t, "error decoding response invalid character 's' looking for beginning of value", err.Error())
 	})
 
+	t.Run("should return error if status is not 200", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/users/username").
+			Reply(403).
+			BodyString(`string`)
+
+		client := CreateClient("/users/username")
+		_, err := client.GetUser()
+
+		assert.Error(t, err)
+		assert.Equal(t, "403 Forbidden", err.Error())
+	})
+
 }

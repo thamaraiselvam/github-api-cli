@@ -44,7 +44,6 @@ func (config config) GetUser() (types.UserInfo, error) {
 }
 
 func makeRequest(method string, URL string, body io.Reader) (*http.Response, error) {
-
 	request, err := http.NewRequest(method, URL, body)
 
 	if err != nil {
@@ -59,6 +58,10 @@ func makeRequest(method string, URL string, body io.Reader) (*http.Response, err
 
 	if resp.StatusCode == 404 {
 		return nil, fmt.Errorf("user not found")
+	}
+
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("%s", resp.Status)
 	}
 
 	return resp, nil

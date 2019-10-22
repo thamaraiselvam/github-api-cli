@@ -3,6 +3,8 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/thamaraiselvam/git-api-cli/cmd/info"
+	"github.com/thamaraiselvam/git-api-cli/cmd/list"
 	"os"
 )
 
@@ -10,7 +12,7 @@ var rootCmd = &cobra.Command{}
 
 //Execute on rootCmd
 func Execute() {
-	commands := []func() *cobra.Command{infoCmd}
+	commands := []func() *cobra.Command{info.Command, list.Command}
 
 	for _, command := range commands {
 		rootCmd.AddCommand(command())
