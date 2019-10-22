@@ -76,6 +76,9 @@ func makeRequest(method string, URL string, body io.Reader) (*http.Response, err
 	if resp.StatusCode == 404 {
 		return nil, fmt.Errorf("user not found")
 	}
+	if resp.StatusCode == 500 {
+		return nil, fmt.Errorf("service error")
+	}
 
 	return resp, nil
 }

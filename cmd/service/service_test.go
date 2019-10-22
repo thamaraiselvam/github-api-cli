@@ -89,6 +89,19 @@ func TestHTTPConfig_GetPublicGists(t *testing.T) {
 		assert.Equal(t, expectedGists, actualGists)
 	})
 
+	t.Run("should return service error for 500 errors", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/gists/public").
+			Reply(500).
+			BodyString(`{}`)
+
+		client := CreateClient("/gists/public")
+		_, err := client.GetPublicGists()
+
+		assert.Error(t, err)
+		assert.Equal(t, "service error", err.Error())
+	})
+
 	t.Run("should return error if response is not a valid json", func(t *testing.T) {
 		gock.New(githubHost).
 			Get("/gists/public").
