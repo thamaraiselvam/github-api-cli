@@ -3,7 +3,7 @@ package service
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/thamaraiselvam/git-api-cli/cli/types"
+	"github.com/thamaraiselvam/git-api-cli/cmd/types"
 	"io"
 	"net/http"
 )
@@ -44,7 +44,6 @@ func (config config) GetUser() (types.UserInfo, error) {
 }
 
 func makeRequest(method string, URL string, body io.Reader) (*http.Response, error) {
-
 	request, err := http.NewRequest(method, URL, body)
 
 	if err != nil {
@@ -59,6 +58,10 @@ func makeRequest(method string, URL string, body io.Reader) (*http.Response, err
 
 	if resp.StatusCode == 404 {
 		return nil, fmt.Errorf("user not found")
+	}
+
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("%c : %s", resp.StatusCode, resp.Status)
 	}
 
 	return resp, nil

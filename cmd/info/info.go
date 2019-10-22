@@ -1,13 +1,14 @@
-package cli
+package info
 
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/thamaraiselvam/git-api-cli/cli/service"
+	"github.com/thamaraiselvam/git-api-cli/cmd/service"
 	"os"
 )
 
-func infoCmd() *cobra.Command {
+//Command fetch user data
+func Command() *cobra.Command {
 	return &cobra.Command{
 		Use:   "info",
 		Short: "Retrieve user profile information",
@@ -19,13 +20,12 @@ func infoCmd() *cobra.Command {
 			return nil
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-
-			getRepoList(args[0])
+			getUserInfo(args[0])
 		},
 	}
 }
 
-func getRepoList(name string) {
+func getUserInfo(name string) {
 	client := service.CreateClient(fmt.Sprintf("/users/%s", name))
 	userInfo, err := client.GetUser()
 	if err != nil {
