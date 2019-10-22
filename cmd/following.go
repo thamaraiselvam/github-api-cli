@@ -3,18 +3,10 @@ package cli
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/thamaraiselvam/git-api-cli/cli/service"
 	"os"
 	"text/tabwriter"
 )
-
-//FollowingUser contains following user information
-type FollowingUser struct {
-	Name string `json:"login"`
-	URL  string `json:"html_url"`
-}
-
-//FollowingUserList stores a list of FollowingUser
-type FollowingUserList = []FollowingUser
 
 func followingCmd() *cobra.Command {
 	return &cobra.Command{
@@ -28,15 +20,14 @@ func followingCmd() *cobra.Command {
 			return nil
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			config := createConfig()
-			getFollowingList(config, args[0])
+			getFollowingList(args[0])
 		},
 	}
 }
 
-func getFollowingList(httpConfig HTTPConfig, name string) {
-	httpConfig.URL = fmt.Sprintf("%s/users/%s/following", httpConfig.BaseURL, name)
-	userInfoList, err := httpConfig.GetFollowing()
+func getFollowingList(name string) {
+	client := service.CreateClient(fmt.Sprintf("/users/%s/following", name))
+	userInfoList, err := client.GetFollowing()
 	if err != nil {
 		_ = fmt.Errorf("%v", err)
 		os.Exit(1)

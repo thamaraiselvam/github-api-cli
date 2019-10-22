@@ -13,6 +13,7 @@ const githubURL = "https://api.github.com"
 //Client is interface of service
 type Client interface {
 	GetUser() (types.UserInfo, error)
+	GetFollowing() (types.FollowingUserList, error)
 	GetFollowers() (types.Followers, error)
 }
 
@@ -62,14 +63,14 @@ func (config config) GetUser() (types.UserInfo, error) {
 }
 
 //GetFollowing get following user information from github.com
-func (config HTTPConfig) GetFollowing() (FollowingUserList, error) {
+func (config config) GetFollowing() (types.FollowingUserList, error) {
 	resp, err := makeRequest(http.MethodGet, config.URL, nil)
 	if err != nil {
-		return FollowingUserList{}, err
+		return types.FollowingUserList{}, err
 	}
-	userInfoList := make(FollowingUserList, 0)
+	userInfoList := make(types.FollowingUserList, 0)
 	if err := json.NewDecoder(resp.Body).Decode(&userInfoList); err != nil {
-		return FollowingUserList{}, fmt.Errorf("error decoding response %v", err)
+		return types.FollowingUserList{}, fmt.Errorf("error decoding response %v", err)
 	}
 
 	return userInfoList, nil
