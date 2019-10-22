@@ -92,16 +92,17 @@ func TestConfig_GetFollowers(t *testing.T) {
 		assert.Equal(t, expectedFollowers, actualFollowers)
 	})
 
-	t.Run("should return error when response is not a valid json", func(t *testing.T) {
+	t.Run("should return error and no followers when response is not a valid json", func(t *testing.T) {
 		gock.New(githubHost).
 			Get("/users/username/followers").
 			Reply(200).
 			BodyString(`invalid json`)
 
 		client := CreateClient("/users/username/followers")
-		_, err := client.GetFollowers()
+		followers, err := client.GetFollowers()
 
 		assert.Error(t, err)
 		assert.Equal(t, "invalid character 'i' looking for beginning of value", err.Error())
+		assert.Equal(t, types.Followers{}, followers)
 	})
 }
