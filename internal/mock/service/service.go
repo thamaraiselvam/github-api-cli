@@ -5,11 +5,12 @@
 package mock
 
 import (
-	gomock "github.com/golang/mock/gomock"
-	types "github.com/thamaraiselvam/git-api-cli/cmd/types"
 	io "io"
 	http "net/http"
 	reflect "reflect"
+
+	gomock "github.com/golang/mock/gomock"
+	types "github.com/thamaraiselvam/git-api-cli/cmd/types"
 )
 
 // MockService is a mock of Service interface
@@ -63,4 +64,18 @@ func (m *MockService) MakeRequest(arg0, arg1 string, arg2 io.Reader) (*http.Resp
 func (mr *MockServiceMockRecorder) MakeRequest(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MakeRequest", reflect.TypeOf((*MockService)(nil).MakeRequest), arg0, arg1, arg2)
+}
+
+func (m *MockService) GetPublicGists() ([]types.PublicGist, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetPublicGists")
+	ret0, _ := ret[0].([]types.PublicGist)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUser indicates an expected call of GetUser
+func (mr *MockServiceMockRecorder) GetPublicGists() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPublicGists", reflect.TypeOf((*MockService)(nil).GetPublicGists))
 }

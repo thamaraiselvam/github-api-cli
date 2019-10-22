@@ -3,9 +3,10 @@ package service
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/thamaraiselvam/git-api-cli/cmd/types"
 	"io"
 	"net/http"
+
+	"github.com/thamaraiselvam/git-api-cli/cmd/types"
 )
 
 const githubURL = "https://api.github.com"
@@ -13,6 +14,7 @@ const githubURL = "https://api.github.com"
 //Client is interface of service
 type Client interface {
 	GetUser() (types.UserInfo, error)
+	GetPublicGists() ([]types.PublicGist, error)
 }
 
 type config struct {
@@ -41,6 +43,20 @@ func (config config) GetUser() (types.UserInfo, error) {
 	}
 
 	return userInfo, nil
+}
+
+func (config config) GetPublicGists() ([]types.PublicGist, error) {
+	resp, err := makeRequest(http.MethodGet, config.URL, nil)
+	if err != nil {
+		return []types.PublicGist{}, err
+	}
+
+	var gists []types.PublicGist
+
+	if err := json.NewDecoder(resp.Body).Decode(&gists); err != nil {
+		return []types.PublicGist{}, fmt.Errorf("error decoding response %v", err)
+	}
+	return gists, nil
 }
 
 func makeRequest(method string, URL string, body io.Reader) (*http.Response, error) {

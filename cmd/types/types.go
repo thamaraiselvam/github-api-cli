@@ -6,3 +6,11 @@ type UserInfo struct {
 	Location    string `json:"location"`
 	PublicRepos int    `json:"public_repos"`
 }
+
+//PublicGist contains basic info of publi gist
+type PublicGist struct {
+	Owner       map[string]interface{} `jsob:"owner"`
+	URL         string                 `json:"html_url"`
+	CreatedAt   string                 `json:"created_at"`
+	Description string                 `json:"description"`
+}
