@@ -6,7 +6,7 @@ package mock
 
 import (
 	gomock "github.com/golang/mock/gomock"
-	types "github.com/thamaraiselvam/git-api-cli/cli/types"
+	types "github.com/thamaraiselvam/git-api-cli/cmd/types"
 	io "io"
 	http "net/http"
 	reflect "reflect"
