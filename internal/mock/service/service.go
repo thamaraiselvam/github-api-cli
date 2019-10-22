@@ -47,3 +47,18 @@ func (mr *MockClientMockRecorder) GetUser() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockClient)(nil).GetUser))
 }
+
+// GetFollowers mocks base method
+func (m *MockClient) GetFollowers() (types.Followers, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFollowers")
+	ret0, _ := ret[0].(types.Followers)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetFollowers indicates an expected call of GetFollowers
+func (mr *MockClientMockRecorder) GetFollowers() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFollowers", reflect.TypeOf((*MockClient)(nil).GetFollowers))
+}
