@@ -15,3 +15,8 @@ type follower struct {
 
 //Followers represents list of followers
 type Followers []follower
+
+//RepoInfo is the description of a repo
+type RepoInfo struct {
+	Name string `json:"name"`
+}

@@ -62,3 +62,18 @@ func (mr *MockClientMockRecorder) GetFollowers() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFollowers", reflect.TypeOf((*MockClient)(nil).GetFollowers))
 }
+
+// GetRepos mocks base method
+func (m *MockClient) GetRepos() ([]types.RepoInfo, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetRepos")
+	ret0, _ := ret[0].([]types.RepoInfo)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetRepos indicates an expected call of GetRepos
+func (mr *MockClientMockRecorder) GetRepos() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRepos", reflect.TypeOf((*MockClient)(nil).GetRepos))
+}

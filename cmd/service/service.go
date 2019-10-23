@@ -14,6 +14,7 @@ const githubURL = "https://api.github.com"
 type Client interface {
 	GetUser() (types.UserInfo, error)
 	GetFollowers() (types.Followers, error)
+	GetRepos() ([]types.RepoInfo, error)
 }
 
 type config struct {
@@ -61,6 +62,22 @@ func (config config) GetUser() (types.UserInfo, error) {
 	return userInfo, nil
 }
 
+//GetRepo fetches repo information from github.com
+func (config config) GetRepos() ([]types.RepoInfo, error) {
+	resp, err := makeRequest(http.MethodGet, config.URL, nil)
+	if err != nil {
+		return []types.RepoInfo{}, err
+	}
+
+	var repoInfo []types.RepoInfo
+
+	if err := json.NewDecoder(resp.Body).Decode(&repoInfo); err != nil {
+		return []types.RepoInfo{}, fmt.Errorf("error decoding response %v", err)
+	}
+
+	return repoInfo, nil
+}
+
 func makeRequest(method string, URL string, body io.Reader) (*http.Response, error) {
 	request, err := http.NewRequest(method, URL, body)
 
@@ -72,6 +89,10 @@ func makeRequest(method string, URL string, body io.Reader) (*http.Response, err
 
 	if err != nil {
 		return nil, fmt.Errorf("error getting response from service %v", err)
+	}
+
+	if resp.StatusCode == 404 {
+		return nil, fmt.Errorf("user not found")
 	}
 
 	if resp.StatusCode != 200 {
