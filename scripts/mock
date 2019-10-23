@@ -4,6 +4,3 @@ set -ex
 
 mkdir -p ../internal/mock
 mockgen -destination ../internal/mock/service/service.go -package mock -source ../cmd/service/service.go
-
-
-# mockgen -source=./cmd/service/service.go -destination=./internal/mock/service/service.go -package=mock
