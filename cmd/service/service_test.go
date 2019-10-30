@@ -177,3 +177,51 @@ func Test_makeRequest(t *testing.T) {
 		})
 	}
 }
+
+func TestHTTPConfig_GetFollowing(t *testing.T) {
+	t.Run("should return FollowingUsers on valid request", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/users/username/following").
+			Reply(200).
+			BodyString(`[{"login": "following", "html_url": "https://github.com/following"}]`)
+
+		expectedUserInfo := types.FollowingUsers{{
+			Name: "following",
+			URL:  "https://github.com/following",
+		}}
+
+		client := CreateClient("/users/username/following")
+
+		actualFollowingUserList, err := client.GetFollowing()
+
+		assert.NoError(t, err)
+		assert.Equal(t, expectedUserInfo, actualFollowingUserList)
+	})
+
+	t.Run("should return not found on invalid username", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/users/username/following").
+			Reply(404).
+			BodyString(`{}`)
+
+		client := CreateClient("/users/username/following")
+		_, err := client.GetFollowing()
+
+		assert.Error(t, err)
+		assert.Equal(t, "user not found", err.Error())
+	})
+
+	t.Run("should return error if response is not a valid json", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/users/username/following").
+			Reply(200).
+			BodyString(`string`)
+
+		client := CreateClient("/users/username/following")
+		_, err := client.GetFollowing()
+
+		assert.Error(t, err)
+		assert.Equal(t, "error decoding response invalid character 's' looking for beginning of value", err.Error())
+	})
+
+}
