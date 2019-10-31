@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/thamaraiselvam/git-api-cli/cmd/service"
 	"github.com/thamaraiselvam/git-api-cli/cmd/types"
+	"text/tabwriter"
 	"os"
 )
 
@@ -34,8 +35,10 @@ var followersCmd = &cobra.Command{
 }
 
 func displayFollowers(followers types.Followers) {
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, 5, ' ', 0)
+	_, _ = fmt.Fprintln(w, "Name\tGithub Link")
 	for _, follower := range followers {
-		fmt.Println(follower.Name)
-		fmt.Println(follower.HTMLURL + "\n")
+		_, _ = fmt.Fprintln(w, fmt.Sprintf("%s\t%s", follower.Name, follower.HTMLURL))
 	}
+	_ = w.Flush()
 }
