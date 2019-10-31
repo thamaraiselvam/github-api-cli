@@ -16,11 +16,11 @@ type follower struct {
 //Followers represents list of followers
 type Followers []follower
 
-//FollowingUser contains following user information
-type FollowingUser struct {
+//followingUser contains following user information
+type followingUser struct {
 	Name string `json:"login"`
 	URL  string `json:"html_url"`
 }
 
 //FollowingUsers stores a list of FollowingUser
-type FollowingUsers = []FollowingUser
+type FollowingUsers = []followingUser
