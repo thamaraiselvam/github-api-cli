@@ -8,10 +8,19 @@ github-api-cli is written in [cobra](https://github.com/spf13/cobra)
 
 ## Usage
 
-### Fetch user information
+### Install
 
 ```
-gac info <username>
+brew tap thamaraiselvam/stable
+brew install github-api-cli
+```
+
+### Available Commands
+
+```
+github-api-cli info <username>
+github-api-cli list followers <username>
+github-api-cli info following <username>
 ```
 
 ### Development
