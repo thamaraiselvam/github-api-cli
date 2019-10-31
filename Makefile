@@ -37,6 +37,9 @@ fmt:
 lint:
 	./scripts/lint $(ALL_PACKAGES)
 
+mockgen:
+	./scripts/mock
+
 test:
 	$(GOBINARY) test $(ALL_PACKAGES) -parallel 4 $(TESTARGS) -coverprofile ./out/coverage
 
