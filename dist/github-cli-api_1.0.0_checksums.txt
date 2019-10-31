@@ -1,0 +1,5 @@
+b1686d70d0b3bf1de49b72e7d7a73f9269b1a9a79f933fc0507a7b2da263fced  github-cli-api_1.0.0_windows_amd64.tar.gz
+6b1fa5c5f5b1545fb04c290bcb488916e4a6346376e2f94af611d2b7b34eee64  github-cli-api_1.0.0_linux_amd64.tar.gz
+08cd5a7d56c36ba03105c96fc593b6460104796d247d00f96c3133b0c68b426d  github-cli-api_1.0.0_darwin_amd64.tar.gz
+09accd5ecb24123a705b20d4c88fe1b36643f0af0ca55238cac3e6c1433db1db  github-cli-api_1.0.0_linux_64-bit.rpm
+f0636f19e42cc1bbc3049015fd11e8fe919f22d7f4c823a2da775d01a4fd3b95  github-cli-api_1.0.0_linux_64-bit.deb
