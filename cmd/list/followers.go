@@ -5,8 +5,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/thamaraiselvam/git-api-cli/cmd/service"
 	"github.com/thamaraiselvam/git-api-cli/cmd/types"
-	"text/tabwriter"
 	"os"
+	"text/tabwriter"
 )
 
 func init() {

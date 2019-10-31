@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-const githubURL = "https://api.github.com"
+const githubHost = "https://api.github.com"
 
 //Client is interface of service
 type Client interface {
@@ -25,7 +25,7 @@ type config struct {
 //CreateClient for making request
 func CreateClient(path string) Client {
 	return config{
-		URL: githubURL + path,
+		URL: githubHost + path,
 	}
 }
 
