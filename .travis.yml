@@ -20,3 +20,13 @@ script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+deploy:
+  - provider: script
+    script: curl -sL https://git.io/goreleaser | bash
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: true
+      repo: thamaraiselvam/github-api-cli
+      condition: $GORELEASER_ON = 1
