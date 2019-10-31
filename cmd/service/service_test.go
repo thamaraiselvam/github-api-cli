@@ -208,7 +208,7 @@ func TestHTTPConfig_GetFollowing(t *testing.T) {
 		_, err := client.GetFollowing()
 
 		assert.Error(t, err)
-		assert.Equal(t, "user not found", err.Error())
+		assert.Equal(t, "404 Not Found", err.Error())
 	})
 
 	t.Run("should return error if response is not a valid json", func(t *testing.T) {
