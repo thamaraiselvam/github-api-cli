@@ -266,5 +266,16 @@ func TestHTTPConfig_GetGists(t *testing.T) {
 		assert.Error(t, err)
 		assert.Equal(t, "error decoding response invalid character 'r' looking for beginning of value", err.Error())
 	})
+	t.Run("should return not found on invalid username", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/users/username/gists").
+			Reply(404).
+			BodyString(`{}`)
 
+		client := CreateClient("/users/username/gists")
+		_, err := client.GetGists()
+
+		assert.Error(t, err)
+		assert.Equal(t, "404 Not Found", err.Error())
+	})
 }
