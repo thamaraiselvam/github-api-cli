@@ -9,9 +9,6 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	types "github.com/thamaraiselvam/git-api-cli/cmd/types"
-
-	gomock "github.com/golang/mock/gomock"
-	types "github.com/thamaraiselvam/git-api-cli/cmd/types"
 )
 
 // MockClient is a mock of Client interface
