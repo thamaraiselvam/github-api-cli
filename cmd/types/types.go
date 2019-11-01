@@ -24,3 +24,13 @@ type followingUser struct {
 
 //FollowingUsers stores a list of FollowingUser
 type FollowingUsers = []followingUser
+
+//Gists contains gists information
+type Gists []gist
+
+type gist struct {
+	URL         string                 `json:"html_url"`
+	CreatedAt   string                 `json:"created_at"`
+	Description string                 `json:"description"`
+	Files       map[string]interface{} `json:"files"`
+}

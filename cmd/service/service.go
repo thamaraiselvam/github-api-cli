@@ -3,9 +3,10 @@ package service
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/thamaraiselvam/git-api-cli/cmd/types"
 	"io"
 	"net/http"
+
+	"github.com/thamaraiselvam/git-api-cli/cmd/types"
 )
 
 const githubHost = "https://api.github.com"
@@ -13,6 +14,7 @@ const githubHost = "https://api.github.com"
 //Client is interface of service
 type Client interface {
 	GetUser() (types.UserInfo, error)
+	GetGists() (types.Gists, error)
 	GetFollowing() (types.FollowingUsers, error)
 	GetFollowers() (types.Followers, error)
 }
@@ -60,6 +62,19 @@ func (config config) GetUser() (types.UserInfo, error) {
 	}
 
 	return userInfo, nil
+}
+
+func (config config) GetGists() (types.Gists, error) {
+	resp, err := makeRequest(http.MethodGet, config.URL, nil)
+	if err != nil {
+		return types.Gists{}, err
+	}
+
+	var gists types.Gists
+	if err := json.NewDecoder(resp.Body).Decode(&gists); err != nil {
+		return types.Gists{}, fmt.Errorf("error decoding response %v", err)
+	}
+	return gists, nil
 }
 
 //GetFollowing get following user information from github.com

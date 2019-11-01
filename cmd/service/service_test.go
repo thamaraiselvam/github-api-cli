@@ -223,3 +223,59 @@ func TestHTTPConfig_GetFollowing(t *testing.T) {
 	})
 
 }
+
+func TestHTTPConfig_GetGists(t *testing.T) {
+	t.Run("should return array of gists on valid request", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/users/username/gists").
+			Reply(200).
+			BodyString(`[{"description": "this is test gist", "created_at": "2019-10-22T14:29:31Z", "html_url": "http://github.com/username/test", "files":{"test.go":{"type": "go"}}}, {"description": "this is test gist2", "created_at": "2019-10-21T14:29:31Z", "html_url": "http://github.com/username/test2", "files":{"test1.go":{"type": "go"}, "test2.go":{"type": "go"}}}]`)
+
+		expectedGists := types.Gists{
+			{
+				Files:        map[string]interface{}{"test.go": map[string]interface{}{"type": "go"}},
+				URL:         "http://github.com/username/test",
+				CreatedAt:   "2019-10-22T14:29:31Z",
+				Description: "this is test gist",
+			},
+			{
+				Files:        map[string]interface{}{"test1.go": map[string]interface{}{"type": "go"}, "test2.go": map[string]interface{}{"type": "go"}},
+				URL:         "http://github.com/username/test2",
+				CreatedAt:   "2019-10-21T14:29:31Z",
+				Description: "this is test gist2",
+			},
+		}
+
+		client := CreateClient("/users/username/gists")
+
+		actualGists, err := client.GetGists()
+
+		assert.NoError(t, err)
+		assert.Equal(t, expectedGists, actualGists)
+	})
+
+	t.Run("should return error if response is not a valid json", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/users/username/gists").
+			Reply(200).
+			BodyString(`random`)
+
+		client := CreateClient("/users/username/gists")
+		_, err := client.GetGists()
+
+		assert.Error(t, err)
+		assert.Equal(t, "error decoding response invalid character 'r' looking for beginning of value", err.Error())
+	})
+	t.Run("should return not found on invalid username", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/users/username/gists").
+			Reply(404).
+			BodyString(`{}`)
+
+		client := CreateClient("/users/username/gists")
+		_, err := client.GetGists()
+
+		assert.Error(t, err)
+		assert.Equal(t, "404 Not Found", err.Error())
+	})
+}
