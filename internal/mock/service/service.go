@@ -5,9 +5,10 @@
 package mock
 
 import (
+	reflect "reflect"
+
 	gomock "github.com/golang/mock/gomock"
 	types "github.com/thamaraiselvam/git-api-cli/cmd/types"
-	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
 	types "github.com/thamaraiselvam/git-api-cli/cmd/types"
@@ -66,16 +67,16 @@ func (mr *MockClientMockRecorder) GetFollowers() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFollowers", reflect.TypeOf((*MockClient)(nil).GetFollowers))
 }
 
-func (m *MockService) GetPublicGists() ([]types.PublicGist, error) {
+func (m *MockClient) GetGists() (types.Gists, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetPublicGists")
-	ret0, _ := ret[0].([]types.PublicGist)
+	ret := m.ctrl.Call(m, "GetGists")
+	ret0, _ := ret[0].(types.Gists)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUser indicates an expected call of GetUser
-func (mr *MockServiceMockRecorder) GetPublicGists() *gomock.Call {
+func (mr *MockClientMockRecorder) GetGists() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPublicGists", reflect.TypeOf((*MockService)(nil).GetPublicGists))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetGists", reflect.TypeOf((*MockClient)(nil).GetGists))
 }
