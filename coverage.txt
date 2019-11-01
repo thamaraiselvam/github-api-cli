@@ -1,0 +1,19 @@
+mode: atomic
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:25.39,29.2 1 6
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:32.62,35.16 2 2
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:39.2,41.70 2 2
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:45.2,45.23 1 1
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:35.16,37.3 1 0
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:41.70,43.3 1 1
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:49.56,51.16 2 4
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:55.2,57.69 2 2
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:61.2,61.22 1 1
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:51.16,53.3 1 2
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:57.69,59.3 1 1
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:64.85,67.16 2 9
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:71.2,73.16 2 9
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:77.2,77.28 1 7
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:81.2,81.18 1 5
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:67.16,69.3 1 0
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:73.16,75.3 1 2
+github.com/thamaraiselvam/git-api-cli/cmd/service/service.go:77.28,79.3 1 2

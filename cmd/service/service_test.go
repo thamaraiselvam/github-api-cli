@@ -9,7 +9,74 @@ import (
 	"testing"
 )
 
-const githubHost = "https://api.github.com"
+func Test_makeRequest(t *testing.T) {
+
+	gock.New(githubHost).
+		Get("/users").
+		Reply(200).
+		BodyString(``)
+
+	type args struct {
+		method string
+		URL    string
+		body   io.Reader
+	}
+	tests := []struct {
+		name        string
+		args        args
+		expected    http.Response
+		expectedErr bool
+	}{
+		{
+			name: "should pass on valid request",
+			args: args{
+				method: http.MethodGet,
+				URL:    "https://api.github.com/users",
+				body:   nil,
+			},
+			expected: http.Response{
+				StatusCode: 200,
+			},
+			expectedErr: false,
+		},
+		{
+			name: "should fail on invalid method type",
+			args: args{
+				method: "method",
+				URL:    "https://api.github.com/users",
+				body:   nil,
+			},
+			expected:    http.Response{},
+			expectedErr: true,
+		},
+		{
+			name: "should fail on invalid characters in url",
+			args: args{
+				method: http.MethodGet,
+				URL:    "",
+				body:   nil,
+			},
+			expected:    http.Response{},
+			expectedErr: true,
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			actual, err := makeRequest(test.args.method, test.args.URL, test.args.body)
+
+			if test.expectedErr {
+				assert.Error(t, err)
+				return
+			}
+
+			assert.NoError(t, err)
+
+			if actual != nil {
+				assert.Equal(t, test.expected.StatusCode, actual.StatusCode)
+			}
+		})
+	}
+}
 
 func TestHTTPConfig_GetUser(t *testing.T) {
 	t.Run("should return user information on valid request", func(t *testing.T) {
@@ -107,75 +174,6 @@ func TestConfig_GetFollowers(t *testing.T) {
 		assert.Equal(t, "invalid character 'i' looking for beginning of value", err.Error())
 		assert.Equal(t, types.Followers{}, followers)
 	})
-}
-
-func Test_makeRequest(t *testing.T) {
-
-	gock.New(githubHost).
-		Get("/users").
-		Reply(200).
-		BodyString(``)
-
-	type args struct {
-		method string
-		URL    string
-		body   io.Reader
-	}
-	tests := []struct {
-		name        string
-		args        args
-		expected    http.Response
-		expectedErr bool
-	}{
-		{
-			name: "should pass on valid request",
-			args: args{
-				method: http.MethodGet,
-				URL:    "https://api.github.com/users",
-				body:   nil,
-			},
-			expected: http.Response{
-				StatusCode: 200,
-			},
-			expectedErr: false,
-		},
-		{
-			name: "should fail on invalid method type",
-			args: args{
-				method: "method",
-				URL:    "https://api.github.com/users",
-				body:   nil,
-			},
-			expected:    http.Response{},
-			expectedErr: true,
-		},
-		{
-			name: "should fail on invalid characters in url",
-			args: args{
-				method: http.MethodGet,
-				URL:    "",
-				body:   nil,
-			},
-			expected:    http.Response{},
-			expectedErr: true,
-		},
-	}
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			actual, err := makeRequest(test.args.method, test.args.URL, test.args.body)
-
-			if test.expectedErr {
-				assert.Error(t, err)
-				return
-			}
-
-			assert.NoError(t, err)
-
-			if actual != nil {
-				assert.Equal(t, test.expected.StatusCode, actual.StatusCode)
-			}
-		})
-	}
 }
 
 func TestHTTPConfig_GetFollowing(t *testing.T) {
