@@ -13,9 +13,9 @@ func init() {
 }
 
 var gistCmd = &cobra.Command{
-	Use:   "list gists",
-	Short: "Retrieve public gists",
-	Long:  "Retrieve public gists with owner github id, description, created date and url",
+	Use:   "gists",
+	Short: "lists gists of a user",
+	Long:  "Retrieve gists with description, created date, url and number of files",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) == 0 {
 			return fmt.Errorf("enter the username")

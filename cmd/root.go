@@ -7,8 +7,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/thamaraiselvam/git-api-cli/cmd/info"
 	"github.com/thamaraiselvam/git-api-cli/cmd/list"
-
-	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{}
