@@ -1,8 +1,6 @@
 package service
 
 import (
-	"testing"
-
 	"github.com/stretchr/testify/assert"
 	"github.com/thamaraiselvam/git-api-cli/cmd/types"
 	"gopkg.in/h2non/gock.v1"
@@ -210,7 +208,7 @@ func TestHTTPConfig_GetFollowing(t *testing.T) {
 		_, err := client.GetFollowing()
 
 		assert.Error(t, err)
-		assert.Equal(t, "user not found", err.Error())
+		assert.Equal(t, "404 Not Found", err.Error())
 	})
 
 	t.Run("should return error if response is not a valid json", func(t *testing.T) {
@@ -228,57 +226,44 @@ func TestHTTPConfig_GetFollowing(t *testing.T) {
 
 }
 
-func TestHTTPConfig_GetPublicGists(t *testing.T) {
-	t.Run("should return array of public gists on valid request", func(t *testing.T) {
+func TestHTTPConfig_GetGists(t *testing.T) {
+	t.Run("should return array of gists on valid request", func(t *testing.T) {
 		gock.New(githubHost).
-			Get("/gists/public").
+			Get("/users/username/gists").
 			Reply(200).
-			BodyString(`[{"owner": {"login":"githubname"}, "description": "this is test gist", "created_at": "2019-10-22T14:29:31Z", "html_url": "http://github.com/user/test"}, {"owner": {"login":"githubname2" }, "description": "this is test gist2", "created_at": "2019-09-22T14:29:31Z", "html_url": "http://github.com/user/test2"}]`)
+			BodyString(`[{"description": "this is test gist", "created_at": "2019-10-22T14:29:31Z", "html_url": "http://github.com/username/test", "files":{"test.go":{"type": "go"}}}, {"description": "this is test gist2", "created_at": "2019-10-21T14:29:31Z", "html_url": "http://github.com/username/test2", "files":{"test1.go":{"type": "go"}, "test2.go":{"type": "go"}}}]`)
 
-		expectedGists := []types.PublicGist{
+		expectedGists := types.Gists{
 			{
-				Owner:       map[string]interface{}{"login": "githubname"},
-				URL:         "http://github.com/user/test",
+				Files:        map[string]interface{}{"test.go": map[string]interface{}{"type": "go"}},
+				URL:         "http://github.com/username/test",
 				CreatedAt:   "2019-10-22T14:29:31Z",
 				Description: "this is test gist",
 			},
 			{
-				Owner:       map[string]interface{}{"login": "githubname2"},
-				URL:         "http://github.com/user/test2",
-				CreatedAt:   "2019-09-22T14:29:31Z",
+				Files:        map[string]interface{}{"test1.go": map[string]interface{}{"type": "go"}, "test2.go": map[string]interface{}{"type": "go"}},
+				URL:         "http://github.com/username/test2",
+				CreatedAt:   "2019-10-21T14:29:31Z",
 				Description: "this is test gist2",
 			},
 		}
 
-		client := CreateClient("/gists/public")
+		client := CreateClient("/users/username/gists")
 
-		actualGists, err := client.GetPublicGists()
+		actualGists, err := client.GetGists()
 
 		assert.NoError(t, err)
 		assert.Equal(t, expectedGists, actualGists)
 	})
 
-	t.Run("should return service error for 500 errors", func(t *testing.T) {
-		gock.New(githubHost).
-			Get("/gists/public").
-			Reply(500).
-			BodyString(`{}`)
-
-		client := CreateClient("/gists/public")
-		_, err := client.GetPublicGists()
-
-		assert.Error(t, err)
-		assert.Equal(t, "service error", err.Error())
-	})
-
 	t.Run("should return error if response is not a valid json", func(t *testing.T) {
 		gock.New(githubHost).
-			Get("/gists/public").
+			Get("/users/username/gists").
 			Reply(200).
 			BodyString(`random`)
 
-		client := CreateClient("/gists/public")
-		_, err := client.GetPublicGists()
+		client := CreateClient("/users/username/gists")
+		_, err := client.GetGists()
 
 		assert.Error(t, err)
 		assert.Equal(t, "error decoding response invalid character 'r' looking for beginning of value", err.Error())

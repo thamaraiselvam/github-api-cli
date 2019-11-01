@@ -7,14 +7,6 @@ type UserInfo struct {
 	PublicRepos int    `json:"public_repos"`
 }
 
-//Gist contains basic info of publi gist
-type Gist struct {
-	Owner       map[string]interface{} `jsob:"owner"`
-	URL         string                 `json:"html_url"`
-	CreatedAt   string                 `json:"created_at"`
-	Description string                 `json:"description"`
-}
-
 //Follower encapsulates follower meta
 type follower struct {
 	Name    string `json:"login"`
@@ -32,3 +24,13 @@ type FollowingUser struct {
 
 //FollowingUsers stores a list of FollowingUser
 type FollowingUsers = []FollowingUser
+
+//Gists contains gists information
+type Gists []gist
+
+type gist struct {
+	URL         string                 `json:"html_url"`
+	CreatedAt   string                 `json:"created_at"`
+	Description string                 `json:"description"`
+	Files       map[string]interface{} `json:"files"`
+}

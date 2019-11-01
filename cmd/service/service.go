@@ -14,12 +14,9 @@ const githubURL = "https://api.github.com"
 //Client is interface of service
 type Client interface {
 	GetUser() (types.UserInfo, error)
-<<<<<<< HEAD
-	GetPublicGists() ([]types.PublicGist, error)
-=======
+	GetGists() (types.Gists, error)
 	GetFollowing() (types.FollowingUsers, error)
 	GetFollowers() (types.Followers, error)
->>>>>>> upstream/master
 }
 
 type config struct {
@@ -67,21 +64,19 @@ func (config config) GetUser() (types.UserInfo, error) {
 	return userInfo, nil
 }
 
-func (config config) GetPublicGists() ([]types.PublicGist, error) {
+func (config config) GetGists() (types.Gists, error) {
 	resp, err := makeRequest(http.MethodGet, config.URL, nil)
 	if err != nil {
-		return []types.PublicGist{}, err
+		return types.Gists{}, err
 	}
 
-	var gists []types.PublicGist
-
+	var gists types.Gists
 	if err := json.NewDecoder(resp.Body).Decode(&gists); err != nil {
-		return []types.PublicGist{}, fmt.Errorf("error decoding response %v", err)
+		return types.Gists{}, fmt.Errorf("error decoding response %v", err)
 	}
 	return gists, nil
 }
 
-func makeRequest(method string, URL string, body io.Reader) (*http.Response, error) {
 //GetFollowing get following user information from github.com
 func (config config) GetFollowing() (types.FollowingUsers, error) {
 	resp, err := makeRequest(http.MethodGet, config.URL, nil)
@@ -111,9 +106,6 @@ func makeRequest(method string, URL string, body io.Reader) (*http.Response, err
 
 	if resp.StatusCode != 200 {
 		return nil, fmt.Errorf("%s", resp.Status)
-	}
-	if resp.StatusCode == 500 {
-		return nil, fmt.Errorf("service error")
 	}
 
 	return resp, nil
