@@ -294,4 +294,29 @@ func TestConfig_GetPRList(t *testing.T) {
 		assert.Equal(t, "open", actualPRList.Items[0].State)
 		assert.Equal(t, "www.github.com", actualPRList.Items[0].PullRequest.URL)
 	})
+
+	t.Run("should return error if response is not a valid json", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/search/issues").
+			Reply(200).
+			BodyString(`yo`)
+
+		client := CreateClient("/search/issues")
+		_, err := client.GetPRList()
+
+		assert.Error(t, err)
+		assert.Equal(t, "invalid character 'y' looking for beginning of value", err.Error())
+	})
+	t.Run("should return not found on invalid username", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/search/issues").
+			Reply(404).
+			BodyString(`{}`)
+
+		client := CreateClient("/search/issues")
+		_, err := client.GetPRList()
+
+		assert.Error(t, err)
+		assert.Equal(t, "404 Not Found", err.Error())
+	})
 }
