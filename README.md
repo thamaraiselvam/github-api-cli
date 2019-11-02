@@ -21,7 +21,7 @@ brew install github-api-cli
 ```
 github-api-cli info <username>
 github-api-cli list followers <username>
-github-api-cli info following <username>
+github-api-cli list following <username>
 ```
 
 ### Development
