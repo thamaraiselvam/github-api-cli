@@ -35,12 +35,12 @@ var prInfoCmd = &cobra.Command{
 	},
 }
 
+//Generates Table to be displayeds
 func displayPRList(prList types.PRItemList) {
-
 	table := util.CreateTable()
-	table.SetHeader([]string{"Title", "URL"})
+	table.SetHeader([]string{"Title", "URL", "State"})
 	for i := 0; i < len(prList.Items); i++ {
-		table.Append([]string{prList.Items[i].Title, prList.Items[i].PullRequest.URL})
+		table.Append([]string{prList.Items[i].Title, prList.Items[i].PullRequest.URL, prList.Items[i].State})
 	}
 	table.Render()
 

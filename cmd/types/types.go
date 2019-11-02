@@ -23,10 +23,9 @@ type pRInfo struct {
 
 //pRItem contains details of each PR
 type pRItem struct {
-	Number      int    `json:"number"`
 	Title       string `json:"title"`
 	PullRequest pRInfo `json:"pull_request"`
-	Body        string `json:"body"`
+	State       string `json:"state"`
 }
 
 //PRItemList List of all PR items
