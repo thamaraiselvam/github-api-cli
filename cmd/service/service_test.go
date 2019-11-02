@@ -1,12 +1,13 @@
 package service
 
 import (
-	"github.com/stretchr/testify/assert"
-	"github.com/thamaraiselvam/git-api-cli/cmd/types"
-	"gopkg.in/h2non/gock.v1"
 	"io"
 	"net/http"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/thamaraiselvam/git-api-cli/cmd/types"
+	"gopkg.in/h2non/gock.v1"
 )
 
 func Test_makeRequest(t *testing.T) {
@@ -233,13 +234,13 @@ func TestHTTPConfig_GetGists(t *testing.T) {
 
 		expectedGists := types.Gists{
 			{
-				Files:        map[string]interface{}{"test.go": map[string]interface{}{"type": "go"}},
+				Files:       map[string]interface{}{"test.go": map[string]interface{}{"type": "go"}},
 				URL:         "http://github.com/username/test",
 				CreatedAt:   "2019-10-22T14:29:31Z",
 				Description: "this is test gist",
 			},
 			{
-				Files:        map[string]interface{}{"test1.go": map[string]interface{}{"type": "go"}, "test2.go": map[string]interface{}{"type": "go"}},
+				Files:       map[string]interface{}{"test1.go": map[string]interface{}{"type": "go"}, "test2.go": map[string]interface{}{"type": "go"}},
 				URL:         "http://github.com/username/test2",
 				CreatedAt:   "2019-10-21T14:29:31Z",
 				Description: "this is test gist2",
@@ -274,6 +275,46 @@ func TestHTTPConfig_GetGists(t *testing.T) {
 
 		client := CreateClient("/users/username/gists")
 		_, err := client.GetGists()
+
+		assert.Error(t, err)
+		assert.Equal(t, "404 Not Found", err.Error())
+	})
+}
+func TestConfig_GetPRList(t *testing.T) {
+	t.Run("Should return valid pull-request list on valid request", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/search/issues").
+			Reply(200).
+			BodyString(`{"items":[{ "title":"Test Issue","state":"open","pull_request":{"html_url":"www.github.com"}}]}`)
+
+		client := CreateClient("/search/issues")
+		actualPRList, err := client.GetPRList()
+		assert.NoError(t, err)
+		assert.Equal(t, "Test Issue", actualPRList.Items[0].Title)
+		assert.Equal(t, "open", actualPRList.Items[0].State)
+		assert.Equal(t, "www.github.com", actualPRList.Items[0].PullRequest.URL)
+	})
+
+	t.Run("should return error if response is not a valid json", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/search/issues").
+			Reply(200).
+			BodyString(`yo`)
+
+		client := CreateClient("/search/issues")
+		_, err := client.GetPRList()
+
+		assert.Error(t, err)
+		assert.Equal(t, "invalid character 'y' looking for beginning of value", err.Error())
+	})
+	t.Run("should return not found on invalid username", func(t *testing.T) {
+		gock.New(githubHost).
+			Get("/search/issues").
+			Reply(404).
+			BodyString(`{}`)
+
+		client := CreateClient("/search/issues")
+		_, err := client.GetPRList()
 
 		assert.Error(t, err)
 		assert.Equal(t, "404 Not Found", err.Error())

@@ -16,6 +16,23 @@ type follower struct {
 //Followers represents list of followers
 type Followers []follower
 
+//pRInfo contains URL information for PR
+type pRInfo struct {
+	URL string `json:"html_url"`
+}
+
+//pRItem contains details of each PR
+type pRItem struct {
+	Title       string `json:"title"`
+	PullRequest pRInfo `json:"pull_request"`
+	State       string `json:"state"`
+}
+
+//PRItemList List of all PR items
+type PRItemList struct {
+	Items []pRItem `json:"items"`
+}
+
 //followingUser contains following user information
 type followingUser struct {
 	Name string `json:"login"`

@@ -17,6 +17,7 @@ type Client interface {
 	GetGists() (types.Gists, error)
 	GetFollowing() (types.FollowingUsers, error)
 	GetFollowers() (types.Followers, error)
+	GetPRList() (types.PRItemList, error)
 }
 
 type config struct {
@@ -29,6 +30,23 @@ func CreateClient(path string) Client {
 	return config{
 		URL: githubHost + path,
 	}
+}
+
+//GetPRList get pull-request information for certain user
+func (config config) GetPRList() (types.PRItemList, error) {
+	resp, err := makeRequest(http.MethodGet, config.URL, nil)
+
+	if err != nil {
+		return types.PRItemList{}, err
+	}
+
+	var prItemList types.PRItemList
+
+	if err := json.NewDecoder(resp.Body).Decode(&prItemList); err != nil {
+		return types.PRItemList{}, err
+	}
+
+	return prItemList, nil
 }
 
 //GetFollowers fetches followers list of user
