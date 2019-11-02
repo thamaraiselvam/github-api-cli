@@ -26,8 +26,6 @@ github-api-cli list following <username>
 
 ### Development
 
-Run
-
 ```sh
 $ git clone https://github.com/thamaraiselvam/git-api-cli.git
 $ cd git-api-cli
