@@ -1,0 +1,29 @@
+project_name: github-api-cli
+
+release:
+  github:
+    owner: thamaraiselvam
+    name: github-api-cli
+builds:
+  - main: ./main.go
+    binary: gca
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+nfpm:
+  name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  replacements:
+    amd64: 64-bit
+    386: 32-bit
+    darwin: macOS
+    linux: linux
+  homepage: https://github.com/thamaraiselvam/github-api-cli
+  maintainer: thamaraiselvam
+  description: Access all of GitHub’s public API functionality from your command-line.
+  license: MIT
+  formats:
+    - deb
+    - rpm

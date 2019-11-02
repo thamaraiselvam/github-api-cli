@@ -33,3 +33,22 @@ type pRItem struct {
 type PRItemList struct {
 	Items []pRItem `json:"items"`
 }
+
+//followingUser contains following user information
+type followingUser struct {
+	Name string `json:"login"`
+	URL  string `json:"html_url"`
+}
+
+//FollowingUsers stores a list of FollowingUser
+type FollowingUsers = []followingUser
+
+//Gists contains gists information
+type Gists []gist
+
+type gist struct {
+	URL         string                 `json:"html_url"`
+	CreatedAt   string                 `json:"created_at"`
+	Description string                 `json:"description"`
+	Files       map[string]interface{} `json:"files"`
+}

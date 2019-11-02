@@ -9,11 +9,13 @@ import (
 	"github.com/thamaraiselvam/git-api-cli/cmd/types"
 )
 
-const githubURL = "https://api.github.com"
+const githubHost = "https://api.github.com"
 
 //Client is interface of service
 type Client interface {
 	GetUser() (types.UserInfo, error)
+	GetGists() (types.Gists, error)
+	GetFollowing() (types.FollowingUsers, error)
 	GetFollowers() (types.Followers, error)
 	GetPRList() (types.PRItemList, error)
 }
@@ -26,7 +28,7 @@ type config struct {
 //CreateClient for making request
 func CreateClient(path string) Client {
 	return config{
-		URL: githubURL + path,
+		URL: githubHost + path,
 	}
 }
 
@@ -78,6 +80,33 @@ func (config config) GetUser() (types.UserInfo, error) {
 	}
 
 	return userInfo, nil
+}
+
+func (config config) GetGists() (types.Gists, error) {
+	resp, err := makeRequest(http.MethodGet, config.URL, nil)
+	if err != nil {
+		return types.Gists{}, err
+	}
+
+	var gists types.Gists
+	if err := json.NewDecoder(resp.Body).Decode(&gists); err != nil {
+		return types.Gists{}, fmt.Errorf("error decoding response %v", err)
+	}
+	return gists, nil
+}
+
+//GetFollowing get following user information from github.com
+func (config config) GetFollowing() (types.FollowingUsers, error) {
+	resp, err := makeRequest(http.MethodGet, config.URL, nil)
+	if err != nil {
+		return types.FollowingUsers{}, err
+	}
+	userInfoList := make(types.FollowingUsers, 0)
+	if err := json.NewDecoder(resp.Body).Decode(&userInfoList); err != nil {
+		return types.FollowingUsers{}, fmt.Errorf("error decoding response %v", err)
+	}
+
+	return userInfoList, nil
 }
 
 func makeRequest(method string, URL string, body io.Reader) (*http.Response, error) {
