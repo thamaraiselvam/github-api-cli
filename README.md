@@ -31,7 +31,6 @@ Run
 ```sh
 $ git clone https://github.com/thamaraiselvam/git-api-cli.git
 $ cd git-api-cli
-$ go install
 $ make setup
 $ make build
 ```
