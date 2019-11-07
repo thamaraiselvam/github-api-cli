@@ -1,5 +1,6 @@
 # github-api-cli
 
+[![](https://godoc.org/github.com/thamaraiselvam/github-api-cli?status.svg)](https://godoc.org/github.com/thamaraiselvam/github-api-cli)
 <img alt="travis build status" src="https://img.shields.io/travis/thamaraiselvam/github-api-cli?style=flat-square"> <img alt="Codecov code coverage" src="https://img.shields.io/codecov/c/github/thamaraiselvam/github-api-cli?style=flat-square">
 <img alt="current tag" src="https://img.shields.io/github/v/tag/thamaraiselvam/github-api-cli.svg?sort=semver&style=flat-square">
 
